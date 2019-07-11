@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+
+	<context:component-scan base-package="com.xworkz.music" />
+	<bean id="propertyPlaceHolder" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<property name="locations" value="db.properties"></property>
+	</bean>
+	<bean id="drivarManagerClass"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="username" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
+		<property name="url" value="${datasource.url}" />
+		<property name="driverClassName" value="${datasource.driverClass}" />
+	</bean>
+
+	<bean id="localSessionFactoryBean"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="drivarManagerClass" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.xworkz.music.dto.MusicDTO</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">${hibernate.prop.show.sql}</prop>
+				<prop key="hibernate.format_sql">${hibernate.prop.formate.sql}</prop>
+			</props>
+		</property>
+
+
+	</bean>
+
+</beans>
+
